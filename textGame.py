@@ -2,7 +2,7 @@ from gameEngine import *
 from sys import exit
 from random import randint
 
-
+# create the Death class
 class Death(Room):
 
     quips = [
@@ -11,11 +11,13 @@ class Death(Room):
         "What a waste to perish now.",
         "Maybe try again, but without the dying part?"
     ]
-
+    
+    # Prints out random death lines
     def enter(self):
         print Death.quips[randint(0, len(self.quips)-1)]
         exit(1)
 
+# create the WhaleRoom class
 class WhaleRoom(Room):
 
     def enter(self):
@@ -23,7 +25,8 @@ class WhaleRoom(Room):
         print "you can't help but notice that there is no way out of this room and"
         print "the door has closed and locked behind you. You are trapped with these whales."
         print "Should you befriend the whales or kill the whales? (befriend, kill)"
-
+        
+        # user input
         action = raw_input("> ")
 
         if action == "kill":
@@ -41,6 +44,7 @@ class WhaleRoom(Room):
             print "Not a choice!"
             return 'whale_room'
 
+# create the NapRoom class
 class NapRoom(Room):
 
     def enter(self):
@@ -50,6 +54,7 @@ class NapRoom(Room):
         print "So tired. zzzzzzzzzzzzzzzzzz"
         print "Do you ever want to wake up? (yes, no)"
 
+        # user input
         action = raw_input("> ")
 
         if action == "no":
@@ -66,6 +71,7 @@ class NapRoom(Room):
             print "Not a choice!"
             return 'nap_room'
 
+# create the ToyRoom class
 class ToyRoom(Room):
 
     def enter(self):
@@ -78,11 +84,14 @@ class ToyRoom(Room):
         print "want to leave the toy room. However, the 9 foot tall wooden toy soldier won't let you leave."
         print "Do you fight him? (yes, no)"
 
+        # user input
         action = raw_input("> ")
 
+        # user input
         action2 = raw_input("Enter a number between 0 and 9 to hit the wooden soldier's weak spots.")
         code = "%d" % randint(1,9)
-        print code
+        # for when you want a cheet code:
+        # print code
         while action2 != code:
 
             if action == "yes":
@@ -105,14 +114,18 @@ class ToyRoom(Room):
                 print "You don't fight him and stay in the toy room forever and die."
                 return 'death'
 
+# create the Finished class
+# I'm not sure why but it causes a bug in the game engine
 class Finished(Room):
 
     def enter(self):
         print "Congratulations you Won!"
         return 'finished'
 
+# create the Map class
 class Map(object):
 
+    # define the rooms the user will play through
     rooms = {
         'whale_room': WhaleRoom(),
         'nap_room': NapRoom(),
@@ -121,15 +134,19 @@ class Map(object):
         'finished': Finished(),
     }
 
+    # init funcion
     def __init__(self, start_room):
         self.start_room = start_room
 
+    # next_room function takes user from room to room
     def next_room(self, room_name):
         return Map.rooms.get(room_name)
 
+    # first_room function starts the game
     def first_room(self):
         return self.next_room(self.start_room)
 
+# play the game...
 a_room = Map('whale_room')
 a_game = Engine(a_room)
 a_game.play()
