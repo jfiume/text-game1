@@ -16,5 +16,5 @@ class Engine(object):
             next_room_name = current_room.enter()
             current_room = self.room_map.next_room(next_room_name)
 
-        # be sure to print out the last scene
+        #prints out the last scene
         current_room.enter()
